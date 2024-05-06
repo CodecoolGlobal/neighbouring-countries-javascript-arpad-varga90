@@ -1,11 +1,15 @@
 import countries from './data.js';
 
 const all = document.querySelector('#all');
+const population = document.querySelector('#population');
 const selectedCountry = [];
 
 function main() {
   addOptions();
   all.addEventListener('change', handleSelect);
+  population.addEventListener('click', (e) =>
+    getNeighborWithLargestPopulation()
+  );
 }
 
 function addOptions() {
@@ -31,6 +35,36 @@ function createNode(tagName, attributes = {}, parentNode = '') {
   }
   parentNode.append(el);
   return null;
+}
+
+// get current country that returns the selected country
+function getCurrentCountry() {
+  const name = selectedCountry[selectedCountry.length - 1];
+  for (const country of countries) {
+    if (country.name.common === name) {
+      return country;
+    }
+  }
+  return null;
+}
+
+// get country obj by cca3
+function getCountryByCca3(cca3) {
+  for (const country of countries) {
+    if (cca3 === country.cca3) {
+      return country;
+    }
+  }
+  return null;
+}
+
+// get neighbor countries and find max value by population
+function getNeighborWithLargestPopulation() {
+  let neighbors = getCurrentCountry().borders.map(getCountryByCca3);
+  let maxValue = neighbors.reduce((max, country) => {
+    return country.population > max.population ? country : max;
+  });
+  return maxValue;
 }
 
 function handleSelect(event) {
