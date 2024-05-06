@@ -27,7 +27,7 @@ function createNode(tagName, attributes = {}) {
   for (const key of Object.keys(attributes)) {
     el[key] = attributes[key];
   }
-    return el;
+  return el;
 }
 
 function handleSelect(event) {
@@ -37,6 +37,7 @@ function handleSelect(event) {
     (country) => country.name.common === currentCountry
   );
   selectedCountry.push(findCountry);
+  console.log(selectedCountry);
 
   // Empty #country before append new elements
   while (countryEl.firstChild) {
@@ -50,16 +51,16 @@ function handleSelect(event) {
 }
 
 function getDetails() {
-  const lastViewed = selectedCountry.pop();
+  const lastSelected = selectedCountry[selectedCountry.length - 1];
   const {
     flag,
     name: { common },
     region,
     subregion,
     capital,
-  } = lastViewed;
+  } = lastSelected;
 
-  let fragment = document.createDocumentFragment();
+  const fragment = document.createDocumentFragment();
 
   //Flag (as <img> element), Common name (as <h1> element), Region (as <h2> element), Subregion (as <h3> element), Capital city (as <h4> element)
   fragment.appendChild(createNode('img', { innerText: flag }));
