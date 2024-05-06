@@ -36,10 +36,20 @@ function createNode(tagName, attributes = {}, parentNode = '') {
 
 function handleSelect(event) {
   const currentCountry = event.target.value;
+
   const findCountry = countries.find(
     (country) => country.name.common === currentCountry
   );
   selectedCountry.push(findCountry);
+
+  // Empty #country before append new elements
+  while (countryEl.firstChild) {
+    countryEl.removeChild(countryEl.firstChild);
+  }
+  /* Alternative solution is:
+  countryEl.innerHTML = '';
+  */
+
   countryEl.appendChild(getDetails());
 }
 
