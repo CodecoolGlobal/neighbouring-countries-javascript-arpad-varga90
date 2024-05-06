@@ -1,6 +1,7 @@
 import countries from './data.js';
 
 const all = document.querySelector('#all');
+const countryEl = document.querySelector('#country');
 const selectedCountry = [];
 
 function main() {
@@ -34,8 +35,34 @@ function createNode(tagName, attributes = {}, parentNode = '') {
 }
 
 function handleSelect(event) {
-  console.log(event.target.value);
-  selectedCountry.push(event.target.value);
+  const currentCountry = event.target.value;
+  const findCountry = countries.find(
+    (country) => country.name.common === currentCountry
+  );
+  selectedCountry.push(findCountry);
+  countryEl.appendChild(getDetails());
+}
+
+function getDetails() {
+  const lastViewed = selectedCountry.pop();
+  const {
+    flag,
+    name: { common },
+    region,
+    subregion,
+    capital,
+  } = lastViewed;
+
+  let fragment = document.createDocumentFragment();
+
+  //Flag (as <img> element), Common name (as <h1> element), Region (as <h2> element), Subregion (as <h3> element), Capital city (as <h4> element)
+  fragment.appendChild(createNode('img', { innerText: flag }));
+  fragment.appendChild(createNode('h1', { innerText: common }));
+  fragment.appendChild(createNode('h2', { innerText: region }));
+  fragment.appendChild(createNode('h3', { innerText: subregion }));
+  fragment.appendChild(createNode('h4', { innerText: capital }));
+
+  return fragment;
 }
 
 main();
