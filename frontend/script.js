@@ -21,17 +21,13 @@ function addOptions() {
   }
 }
 
-function createNode(tagName, attributes = {}, parentNode = '') {
+function createNode(tagName, attributes = {}) {
   const el = document.createElement(tagName);
 
   for (const key of Object.keys(attributes)) {
     el[key] = attributes[key];
   }
-  if (parentNode === '') {
     return el;
-  }
-  parentNode.append(el);
-  return null;
 }
 
 function handleSelect(event) {
