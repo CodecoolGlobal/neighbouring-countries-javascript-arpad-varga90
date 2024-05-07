@@ -77,4 +77,4 @@ function handleSelect(event) {
 main();
 console.log(countries);
 
-export { all, countryEl, selectedCountry };
+export { selectedCountry };
