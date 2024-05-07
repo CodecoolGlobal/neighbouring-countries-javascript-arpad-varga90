@@ -1,7 +1,8 @@
 import countries from './data.js';
-import { countryEl, selectedCountry } from './script.js';
+import { selectedCountry } from './script.js';
 
 export default function handleSelect(event) {
+  const countryEl = document.querySelector('#country');
   const currentCountry = event.target.value;
 
   const findCountry = countries.find(
