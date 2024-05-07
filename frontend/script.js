@@ -1,7 +1,9 @@
 import countries from './data.js';
+import handleSelect from './select-country-details.js';
 
 const all = document.querySelector('#all');
 const population = document.querySelector('#population');
+const countryEl = document.querySelector('#country');
 const selectedCountry = [];
 
 function main() {
@@ -74,3 +76,5 @@ function handleSelect(event) {
 
 main();
 console.log(countries);
+
+export { all, countryEl, selectedCountry };
