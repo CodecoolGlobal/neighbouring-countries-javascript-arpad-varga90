@@ -3,6 +3,7 @@ import { selectedCountry } from './script.js';
 
 export default function handleSelect(event) {
   const countryEl = document.querySelector('#country');
+  const toolbarEl = document.querySelector('#toolbar');
   const currentCountry = event.target.value;
 
   const findCountry = countries.find(
@@ -20,6 +21,7 @@ export default function handleSelect(event) {
   */
 
   countryEl.appendChild(getDetails());
+  toolbarEl.appendChild(navButtons());
   revealButtons();
 }
 
@@ -51,6 +53,22 @@ function getDetails() {
   fragment.appendChild(createNode('h3', { innerText: subregion }));
   fragment.appendChild(createNode('h4', { innerText: capital }));
 
+  return fragment;
+}
+
+function navButtons() {
+  const fragment = document.createDocumentFragment();
+  const previous = createNode('button', {
+    innerText: 'Previous country',
+    id: 'prev',
+    disabled: true,
+  });
+  const next = createNode('button', {
+    innerText: 'Next country',
+    id: 'next',
+    disabled: true,
+  });
+  fragment.append(previous, next);
   return fragment;
 }
 
