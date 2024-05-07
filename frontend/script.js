@@ -1,6 +1,8 @@
 import countries from './data.js';
+import handleSelect from './select-country-details.js';
 
 const all = document.querySelector('#all');
+const countryEl = document.querySelector('#country');
 const selectedCountry = [];
 
 function main() {
@@ -20,23 +22,7 @@ function addOptions() {
   }
 }
 
-function createNode(tagName, attributes = {}, parentNode = '') {
-  const el = document.createElement(tagName);
-
-  for (const key of Object.keys(attributes)) {
-    el[key] = attributes[key];
-  }
-  if (parentNode === '') {
-    return el;
-  }
-  parentNode.append(el);
-  return null;
-}
-
-function handleSelect(event) {
-  console.log(event.target.value);
-  selectedCountry.push(event.target.value);
-}
-
 main();
 console.log(countries);
+
+export { all, countryEl, selectedCountry };
