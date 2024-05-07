@@ -12,14 +12,15 @@ export default function handleSelect(event) {
   console.log(selectedCountry);
 
   // Empty #country before append new elements
+  countryEl.innerHTML = '';
+
+  /* Alternative solution is:
   while (countryEl.firstChild) {
     countryEl.removeChild(countryEl.firstChild);
-  }
-  /* Alternative solution is:
-  countryEl.innerHTML = '';
   */
 
   countryEl.appendChild(getDetails());
+  revealButtons();
 }
 
 function createNode(tagName, attributes = {}) {
@@ -51,4 +52,12 @@ function getDetails() {
   fragment.appendChild(createNode('h4', { innerText: capital }));
 
   return fragment;
+}
+
+function revealButtons() {
+  const populatonButton = document.querySelector('#population');
+  const areaButton = document.querySelector('#area');
+
+  populatonButton.removeAttribute('hidden');
+  areaButton.removeAttribute('hidden');
 }
