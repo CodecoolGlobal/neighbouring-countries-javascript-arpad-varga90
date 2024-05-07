@@ -3,6 +3,7 @@ import handleSelect from './select-country-details.js';
 
 const all = document.querySelector('#all');
 const population = document.querySelector('#population');
+const area = document.querySelector('#area');
 const countryEl = document.querySelector('#country');
 const selectedCountry = [];
 
@@ -12,6 +13,7 @@ function main() {
   population.addEventListener('click', (e) =>
     getNeighborWithLargestPopulation()
   );
+  area.addEventListener('click', getNeighborWithLargestArea);
 }
 
 function addOptions() {
@@ -39,17 +41,6 @@ function createNode(tagName, attributes = {}, parentNode = '') {
   return null;
 }
 
-// get current country that returns the selected country
-function getCurrentCountry() {
-  const name = selectedCountry[selectedCountry.length - 1];
-  for (const country of countries) {
-    if (country.name.common === name) {
-      return country;
-    }
-  }
-  return null;
-}
-
 // get country obj by cca3
 function getCountryByCca3(cca3) {
   for (const country of countries) {
@@ -62,16 +53,49 @@ function getCountryByCca3(cca3) {
 
 // get neighbor countries and find max value by population
 function getNeighborWithLargestPopulation() {
-  let neighbors = getCurrentCountry().borders.map(getCountryByCca3);
-  let maxValue = neighbors.reduce((max, country) => {
+  const currentCountry = selectedCountry[selectedCountry.length - 1];
+  if (currentCountry.borders) {
+  }
+  const neighbors = currentCountry.borders.map(getCountryByCca3);
+  const maxValue = neighbors.reduce((max, country) => {
     return country.population > max.population ? country : max;
   });
   return maxValue;
 }
 
-function handleSelect(event) {
-  console.log(event.target.value);
-  selectedCountry.push(event.target.value);
+// get neighbor countries and find max value by area
+function getNeighborWithLargestArea() {
+  const areaDiv = document.querySelector('#country_area');
+  const currentCountry = selectedCountry[selectedCountry.length - 1];
+  let neighbors;
+  let innerText = '';
+
+  if (currentCountry.borders) {
+    neighbors = currentCountry.borders.map(getCountryByCca3);
+    const maxValue = neighbors.reduce((max, country) => {
+      return country.area > max.area ? country : max;
+    });
+
+    innerText = `The largest country next to ${
+      currentCountry.name.common
+    } in terms of land area is ${maxValue.name.common} with ${
+      Math.round(maxValue.area / 10000) / 100
+    } million km²
+  `;
+  } else {
+    innerText = `${currentCountry.name.common} has no land neighbors
+  `;
+  }
+
+  areaDiv.innerHTML = '';
+  createNode(
+    'p',
+    {
+      className: 'area',
+      innerText: innerText,
+    },
+    areaDiv
+  );
 }
 
 main();
