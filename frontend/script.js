@@ -1,18 +1,16 @@
 import countries from './data.js';
-import handleSelect from './select-country-details.js';
+import { handleSelect, runOnce } from './select-country-details.js';
 
 const all = document.querySelector('#all');
 const population = document.querySelector('#population');
 const area = document.querySelector('#area');
-const countryEl = document.querySelector('#country');
 const selectedCountry = [];
 
 function main() {
   addOptions();
+  all.addEventListener('change', runOnce, { once: true });
   all.addEventListener('change', handleSelect);
-  population.addEventListener('click', (e) =>
-    getNeighborWithLargestPopulation()
-  );
+  population.addEventListener('click', getNeighborWithLargestPopulation);
   area.addEventListener('click', getNeighborWithLargestArea);
 }
 
@@ -40,7 +38,6 @@ function createNode(tagName, attributes = {}, parentNode = '') {
   parentNode.append(el);
   return null;
 }
-
 // get country obj by cca3
 function getCountryByCca3(cca3) {
   for (const country of countries) {
@@ -50,7 +47,6 @@ function getCountryByCca3(cca3) {
   }
   return null;
 }
-
 // get neighbor countries and find max value by population
 function getNeighborWithLargestPopulation() {
   const currentCountry = selectedCountry[selectedCountry.length - 1];
@@ -62,7 +58,6 @@ function getNeighborWithLargestPopulation() {
   });
   return maxValue;
 }
-
 // get neighbor countries and find max value by area
 function getNeighborWithLargestArea() {
   const areaDiv = document.querySelector('#country_area');
