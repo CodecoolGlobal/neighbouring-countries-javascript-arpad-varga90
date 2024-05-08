@@ -1,9 +1,6 @@
 import countries from './data.js';
 import { selectedCountry, getCurrentIndex, setCurrentIndex } from './script.js';
 
-const previousButton = document.querySelector('#prev');
-const nextButton = document.querySelector('#next');
-
 export function runOnce() {
   const toolbarEl = document.getElementById('toolbar');
 
@@ -12,6 +9,8 @@ export function runOnce() {
 }
 
 export function handleSelect(event) {
+  const previousButton = document.querySelector('#prev');
+
   const countryEl = document.getElementById('country');
   const currentCountry = event.target.value;
 
@@ -20,6 +19,11 @@ export function handleSelect(event) {
   );
   const currentIndex = selectedCountry.push(findCountry);
   setCurrentIndex(currentIndex);
+
+  if (currentIndex > 1) {
+    previousButton.removeAttribute('disabled');
+  }
+
   //temp
   console.log(selectedCountry);
 
@@ -79,14 +83,12 @@ function navButtons() {
   const prev = createNode('button', {
     innerText: 'Previous country',
     id: 'prev',
-    //temp
-    //disabled: true,
+    disabled: true,
   });
   const next = createNode('button', {
     innerText: 'Next country',
     id: 'next',
-    //temp
-    //disabled: true,
+    disabled: true,
   });
   next.addEventListener('click', handleNextClick);
   prev.addEventListener('click', handlePrevClick);
@@ -103,7 +105,7 @@ function revealButtons() {
   areaButton.removeAttribute('hidden');
 }
 
-function handleNextClick(event) {
+function handleNextClick() {
   let currentIndex = getCurrentIndex();
 
   currentIndex++;
@@ -111,11 +113,11 @@ function handleNextClick(event) {
   console.log(`Current index value: ${getCurrentIndex()}`);
 }
 
-function handlePrevClick(event) {
+function handlePrevClick() {
+  const nextButton = document.querySelector('#next');
   let currentIndex = getCurrentIndex();
 
-  //temp
-  //nextButton.removeAttribute('disabled');
+  nextButton.removeAttribute('disabled');
   currentIndex--;
   setCurrentIndex(currentIndex);
   console.log(`Current index value: ${getCurrentIndex()}`);
