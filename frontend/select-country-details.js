@@ -19,9 +19,10 @@ export default function handleSelect(event) {
     countryEl.removeChild(countryEl.firstChild);
   */
   const divCountryArea = createNode('div', { id: 'country_area' });
+  const divCountryPopulation = createNode('div', { id: 'country_population' });
 
   countryEl.appendChild(getDetails());
-  countryEl.appendChild(divCountryArea);
+  countryEl.append(divCountryArea, divCountryPopulation);
   revealButtons();
 }
 
