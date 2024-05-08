@@ -37,7 +37,7 @@ function createNode(tagName, attributes = {}) {
 function getDetails() {
   const lastSelected = selectedCountry[selectedCountry.length - 1];
   const {
-    flag,
+    flags: { png },
     name: { common },
     region,
     subregion,
@@ -47,7 +47,9 @@ function getDetails() {
   const fragment = document.createDocumentFragment();
 
   //Flag (as <img> element), Common name (as <h1> element), Region (as <h2> element), Subregion (as <h3> element), Capital city (as <h4> element)
-  fragment.appendChild(createNode('img', { innerText: flag }));
+  fragment.appendChild(
+    createNode('img', { src: png, alt: `flag-of-${common.toLowerCase()}` })
+  );
   fragment.appendChild(createNode('h1', { innerText: common }));
   fragment.appendChild(createNode('h2', { innerText: region }));
   fragment.appendChild(createNode('h3', { innerText: subregion }));
