@@ -69,11 +69,13 @@ function navButtons() {
   const prev = createNode('button', {
     innerText: 'Previous country',
     id: 'prev',
+    //temp
     //disabled: true,
   });
   const next = createNode('button', {
     innerText: 'Next country',
     id: 'next',
+    //temp
     //disabled: true,
   });
   next.addEventListener('click', handleNextClick);
@@ -102,6 +104,7 @@ function handleNextClick(event) {
 function handlePrevClick(event) {
   let currentIndex = getCurrentIndex();
 
+  //temp
   //nextButton.removeAttribute('disabled');
   currentIndex--;
   setCurrentIndex(currentIndex);
