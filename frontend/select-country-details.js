@@ -17,6 +17,11 @@ export function handleSelect(event) {
   const previousButton = document.querySelector('#prev');
   const currentCountry = event.target.value;
 
+  if (currentCountry === 'Please choose a country') {
+    console.log('No such country.');
+    return;
+  }
+
   const findCountry = countries.find(
     (country) => country.name.common === currentCountry
   );
