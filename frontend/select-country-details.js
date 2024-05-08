@@ -31,8 +31,6 @@ export function handleSelect(event) {
   */
 
   countryEl.appendChild(getDetails());
-  toolbarEl.appendChild(navButtons());
-  revealButtons();
 }
 
 function createNode(tagName, attributes = {}) {
