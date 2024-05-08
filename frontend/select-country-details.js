@@ -1,9 +1,18 @@
 import countries from './data.js';
 import { selectedCountry, getCurrentIndex, setCurrentIndex } from './script.js';
 
-export default function handleSelect(event) {
-  const countryEl = document.querySelector('#country');
-  const toolbarEl = document.querySelector('#toolbar');
+const previousButton = document.querySelector('#prev');
+const nextButton = document.querySelector('#next');
+
+export function runOnce() {
+  const toolbarEl = document.getElementById('toolbar');
+
+  toolbarEl.appendChild(navButtons());
+  revealButtons();
+}
+
+export function handleSelect(event) {
+  const countryEl = document.getElementById('country');
   const currentCountry = event.target.value;
 
   const findCountry = countries.find(
@@ -59,17 +68,20 @@ function getDetails() {
 
 function navButtons() {
   const fragment = document.createDocumentFragment();
-  const previous = createNode('button', {
+  const prev = createNode('button', {
     innerText: 'Previous country',
     id: 'prev',
-    disabled: true,
+    //disabled: true,
   });
   const next = createNode('button', {
     innerText: 'Next country',
     id: 'next',
-    disabled: true,
+    //disabled: true,
   });
-  fragment.append(previous, next);
+  next.addEventListener('click', handleNextClick);
+  prev.addEventListener('click', handlePrevClick);
+
+  fragment.append(prev, next);
   return fragment;
 }
 
