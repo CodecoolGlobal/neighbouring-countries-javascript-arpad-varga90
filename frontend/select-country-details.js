@@ -42,7 +42,7 @@ export function handleSelect(event) {
 
   countryEl.append(
     getDetailsFragment(findCountry),
-    areaPopulationDivFragment()
+    areaPopulationDivFragment()              // Better to define in reka and csabi function
   );
   revealButtons();
 }
@@ -68,6 +68,7 @@ function areaPopulationDivFragment() {
 }
 
 function getDetailsFragment(lastSelected) {
+  const fragment = document.createDocumentFragment();
   const {
     flags: { png },
     name: { common },
