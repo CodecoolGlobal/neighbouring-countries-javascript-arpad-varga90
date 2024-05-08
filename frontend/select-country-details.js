@@ -20,20 +20,13 @@ export function handleSelect(event) {
   );
   const currentIndex = selectedCountry.push(findCountry);
   setCurrentIndex(currentIndex);
+  //temp
   console.log(selectedCountry);
 
   // Empty #country before append new elements
   countryEl.innerHTML = '';
 
-  /* Alternative solution is:
-  while (countryEl.firstChild) {
-    countryEl.removeChild(countryEl.firstChild);
-  */
-  const divCountryArea = createNode('div', { id: 'country_area' });
-  const divCountryPopulation = createNode('div', { id: 'country_population' });
-
-  countryEl.appendChild(getDetails());
-  countryEl.append(divCountryArea, divCountryPopulation);
+  countryEl.append(getDetailsFragment(), areaPopulationDivFragment());
   revealButtons();
 }
 
@@ -46,7 +39,18 @@ function createNode(tagName, attributes = {}) {
   return el;
 }
 
-function getDetails() {
+function areaPopulationDivFragment() {
+  const fragment = document.createDocumentFragment();
+
+  const divCountryArea = createNode('div', { id: 'country_area' });
+  const divCountryPopulation = createNode('div', { id: 'country_population' });
+
+  fragment.append(divCountryArea, divCountryPopulation);
+
+  return fragment;
+}
+
+function getDetailsFragment() {
   const lastSelected = selectedCountry[selectedCountry.length - 1];
   const {
     flags: { png },
