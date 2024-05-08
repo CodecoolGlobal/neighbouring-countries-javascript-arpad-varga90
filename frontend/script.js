@@ -1,5 +1,5 @@
 import countries from './data.js';
-import handleSelect from './select-country-details.js';
+import { handleSelect, runOnce } from './select-country-details.js';
 
 const all = document.querySelector('#all');
 const countryEl = document.querySelector('#country');
@@ -7,6 +7,7 @@ const selectedCountry = [];
 
 function main() {
   addOptions();
+  all.addEventListener('change', runOnce, { once: true });
   all.addEventListener('change', handleSelect);
 }
 
