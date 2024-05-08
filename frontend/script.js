@@ -1,6 +1,7 @@
 import countries from './data.js';
 import { handleSelect, runOnce } from './select-country-details.js';
 
+let currentIndex;
 const all = document.querySelector('#all');
 const countryEl = document.querySelector('#country');
 const selectedCountry = [];
@@ -22,6 +23,9 @@ function addOptions() {
     all.append(option);
   }
 }
+
+export const getCurrentIndex = () => currentIndex;
+export const setCurrentIndex = (value) => (currentIndex = value);
 
 main();
 console.log(countries);
