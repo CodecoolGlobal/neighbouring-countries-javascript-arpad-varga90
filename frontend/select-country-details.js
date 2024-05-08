@@ -2,7 +2,6 @@ import countries from './data.js';
 import { selectedCountry } from './script.js';
 
 let arrPointer;
-const nodeHistroyArr = [];
 const getCurrentIndex = () => arrPointer;
 const setCurrentIndex = (value) => (arrPointer = value);
 const countryEl = document.getElementById('country');
@@ -22,22 +21,20 @@ export function handleSelect(event) {
     (country) => country.name.common === currentCountry
   );
 
-  const detailsFrag = getDetailsFragment(findCountry);
-  const historySize = nodeHistroyArr.push(detailsFrag);
-  setCurrentIndex(historySize);
-
-  selectedCountry.push(findCountry);
+  const historySize = selectedCountry.push(findCountry);
+  setCurrentIndex(historySize - 1);
 
   if (historySize > 1) {
     previousButton.removeAttribute('disabled');
   }
-  //temp
-  console.log(nodeHistroyArr);
 
   // Empty #country before append new elements
   countryEl.innerHTML = '';
 
-  countryEl.append(detailsFrag, areaPopulationDivFragment());
+  countryEl.append(
+    getDetailsFragment(findCountry),
+    areaPopulationDivFragment()
+  );
   revealButtons();
 }
 
@@ -114,7 +111,7 @@ function toggleDisableAttrib(index) {
   const previousButton = document.querySelector('#prev');
   const selectedCountrySize = selectedCountry.length;
 
-  if (index === selectedCountrySize) {
+  if (index === selectedCountrySize - 1) {
     nextButton.setAttribute('disabled', '');
   } else if (index < selectedCountrySize) {
     nextButton.removeAttribute('disabled');
@@ -127,7 +124,6 @@ function toggleDisableAttrib(index) {
 }
 
 function handleNextClick() {
-  debugger; //temp
   let currentIndex = getCurrentIndex();
 
   currentIndex++;
@@ -135,14 +131,10 @@ function handleNextClick() {
   toggleDisableAttrib(currentIndex);
 
   countryEl.innerHTML = '';
-  const temp = nodeHistroyArr.at(currentIndex);
-  countryEl.append(temp);
-
-  console.log(`Current index value: ${currentIndex}`);
+  countryEl.appendChild(getDetailsFragment(selectedCountry[currentIndex]));
 }
 
 function handlePrevClick() {
-  debugger; //temp
   let currentIndex = getCurrentIndex();
 
   currentIndex--;
@@ -150,8 +142,5 @@ function handlePrevClick() {
   toggleDisableAttrib(currentIndex);
 
   countryEl.innerHTML = '';
-  const temp = nodeHistroyArr.at(currentIndex);
-  countryEl.append(temp);
-
-  console.log(`Current index value: ${currentIndex}`);
+  countryEl.appendChild(getDetailsFragment(selectedCountry[currentIndex]));
 }
