@@ -39,17 +39,6 @@ function createNode(tagName, attributes = {}, parentNode = '') {
   return null;
 }
 
-// get current country that returns the selected country
-function getCurrentCountry() {
-  const name = selectedCountry[selectedCountry.length - 1];
-  for (const country of countries) {
-    if (country.name.common === name) {
-      return country;
-    }
-  }
-  return null;
-}
-
 // get country obj by cca3
 function getCountryByCca3(cca3) {
   for (const country of countries) {
@@ -62,16 +51,13 @@ function getCountryByCca3(cca3) {
 
 // get neighbor countries and find max value by population
 function getNeighborWithLargestPopulation() {
-  let neighbors = getCurrentCountry().borders.map(getCountryByCca3);
+  const currentCountry = selectedCountry[selectedCountry.length - 1];
+  let neighbors = currentCountry.borders.map(getCountryByCca3);
   let maxValue = neighbors.reduce((max, country) => {
     return country.population > max.population ? country : max;
   });
+  console.log(maxValue);
   return maxValue;
-}
-
-function handleSelect(event) {
-  console.log(event.target.value);
-  selectedCountry.push(event.target.value);
 }
 
 main();
