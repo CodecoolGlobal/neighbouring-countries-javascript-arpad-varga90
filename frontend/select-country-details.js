@@ -1,5 +1,5 @@
 import countries from './data.js';
-import { selectedCountry } from './script.js';
+import { selectedCountry, getCurrentIndex, setCurrentIndex } from './script.js';
 
 export default function handleSelect(event) {
   const countryEl = document.querySelector('#country');
@@ -9,7 +9,8 @@ export default function handleSelect(event) {
   const findCountry = countries.find(
     (country) => country.name.common === currentCountry
   );
-  selectedCountry.push(findCountry);
+  const currentIndex = selectedCountry.push(findCountry);
+  setCurrentIndex(currentIndex);
   console.log(selectedCountry);
 
   // Empty #country before append new elements
@@ -78,4 +79,21 @@ function revealButtons() {
 
   populatonButton.removeAttribute('hidden');
   areaButton.removeAttribute('hidden');
+}
+
+function handleNextClick(event) {
+  let currentIndex = getCurrentIndex();
+
+  currentIndex++;
+  setCurrentIndex(currentIndex);
+  console.log(`Current index value: ${getCurrentIndex()}`);
+}
+
+function handlePrevClick(event) {
+  let currentIndex = getCurrentIndex();
+
+  //nextButton.removeAttribute('disabled');
+  currentIndex--;
+  setCurrentIndex(currentIndex);
+  console.log(`Current index value: ${getCurrentIndex()}`);
 }
