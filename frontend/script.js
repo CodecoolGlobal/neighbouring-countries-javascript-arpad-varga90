@@ -52,11 +52,16 @@ function getCountryByCca3(cca3) {
 // get neighbor countries and find max value by population
 function getNeighborWithLargestPopulation() {
   const currentCountry = selectedCountry[selectedCountry.length - 1];
-  let neighbors = currentCountry.borders.map(getCountryByCca3);
-  let maxValue = neighbors.reduce((max, country) => {
-    return country.population > max.population ? country : max;
-  });
-  console.log(maxValue);
+  let neighbors;
+  let innerText = '';
+  if (currentCountry.borders) {
+    neighbors = currentCountry.borders.map(getCountryByCca3);
+    let maxValue = neighbors.reduce((max, country) => {
+      return country.population > max.population ? country : max;
+    });
+  } else {
+    innerText = `${currentCountry.name.common} does not have neighbors`;
+  }
   return maxValue;
 }
 
