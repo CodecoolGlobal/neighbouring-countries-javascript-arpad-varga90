@@ -18,8 +18,10 @@ export default function handleSelect(event) {
   while (countryEl.firstChild) {
     countryEl.removeChild(countryEl.firstChild);
   */
+  const divCountryArea = createNode('div', { id: 'country_area' });
 
   countryEl.appendChild(getDetails());
+  countryEl.appendChild(divCountryArea);
   revealButtons();
 }
 
