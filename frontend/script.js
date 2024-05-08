@@ -66,7 +66,7 @@ function getNeighborWithLargestPopulation() {
 // get neighbor countries and find max value by area
 function getNeighborWithLargestArea() {
   const areaDiv = document.querySelector('#country_area');
-  const currentCountry = selectedCountry[selectedCountry.length - 1];
+  const currentCountry = selectedCountry.at(-1);
   let neighbors;
   let innerText = '';
 
