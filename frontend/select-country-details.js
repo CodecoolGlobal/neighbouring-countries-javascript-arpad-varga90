@@ -105,6 +105,23 @@ function revealButtons() {
   areaButton.removeAttribute('hidden');
 }
 
+function toggleDisableAttrib(index) {
+  const nextButton = document.querySelector('#next');
+  const previousButton = document.querySelector('#prev');
+  const selectedCountrySize = selectedCountry.length;
+
+  if (index === selectedCountrySize) {
+    nextButton.setAttribute('disabled', '');
+  } else if (index < selectedCountrySize) {
+    nextButton.removeAttribute('disabled');
+  }
+  if (index === 0) {
+    previousButton.setAttribute('disabled', '');
+  } else if (index > 0) {
+    previousButton.removeAttribute('disabled');
+  }
+}
+
 function handleNextClick() {
   let currentIndex = getCurrentIndex();
 
