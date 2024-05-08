@@ -1,5 +1,11 @@
 import countries from './data.js';
-import { selectedCountry, getCurrentIndex, setCurrentIndex } from './script.js';
+import { selectedCountry } from './script.js';
+
+let arrPointer;
+const nodeHistroyArr = [];
+const getCurrentIndex = () => arrPointer;
+const setCurrentIndex = (value) => (arrPointer = value);
+const countryEl = document.getElementById('country');
 
 export function runOnce() {
   const toolbarEl = document.getElementById('toolbar');
@@ -10,27 +16,28 @@ export function runOnce() {
 
 export function handleSelect(event) {
   const previousButton = document.querySelector('#prev');
-
-  const countryEl = document.getElementById('country');
   const currentCountry = event.target.value;
 
   const findCountry = countries.find(
     (country) => country.name.common === currentCountry
   );
-  const currentIndex = selectedCountry.push(findCountry);
-  setCurrentIndex(currentIndex);
 
-  if (currentIndex > 1) {
+  const detailsFrag = getDetailsFragment(findCountry);
+  const historySize = nodeHistroyArr.push(detailsFrag);
+  setCurrentIndex(historySize);
+
+  selectedCountry.push(findCountry);
+
+  if (historySize > 1) {
     previousButton.removeAttribute('disabled');
   }
-
   //temp
-  console.log(selectedCountry);
+  console.log(nodeHistroyArr);
 
   // Empty #country before append new elements
   countryEl.innerHTML = '';
 
-  countryEl.append(getDetailsFragment(), areaPopulationDivFragment());
+  countryEl.append(detailsFrag, areaPopulationDivFragment());
   revealButtons();
 }
 
@@ -54,8 +61,7 @@ function areaPopulationDivFragment() {
   return fragment;
 }
 
-function getDetailsFragment() {
-  const lastSelected = selectedCountry[selectedCountry.length - 1];
+function getDetailsFragment(lastSelected) {
   const {
     flags: { png },
     name: { common },
@@ -66,10 +72,8 @@ function getDetailsFragment() {
 
   const fragment = document.createDocumentFragment();
 
-  //Flag (as <img> element), Common name (as <h1> element), Region (as <h2> element), Subregion (as <h3> element), Capital city (as <h4> element)
-  fragment.appendChild(
-    createNode('img', { src: png, alt: `flag-of-${common.toLowerCase()}` })
-  );
+  //prettier-ignore
+  fragment.appendChild(createNode('img', { src: png, alt: `flag-of-${common.toLowerCase()}`}));
   fragment.appendChild(createNode('h1', { innerText: common }));
   fragment.appendChild(createNode('h2', { innerText: region }));
   fragment.appendChild(createNode('h3', { innerText: subregion }));
@@ -123,19 +127,31 @@ function toggleDisableAttrib(index) {
 }
 
 function handleNextClick() {
+  debugger; //temp
   let currentIndex = getCurrentIndex();
 
   currentIndex++;
   setCurrentIndex(currentIndex);
-  console.log(`Current index value: ${getCurrentIndex()}`);
+  toggleDisableAttrib(currentIndex);
+
+  countryEl.innerHTML = '';
+  const temp = nodeHistroyArr.at(currentIndex);
+  countryEl.append(temp);
+
+  console.log(`Current index value: ${currentIndex}`);
 }
 
 function handlePrevClick() {
-  const nextButton = document.querySelector('#next');
+  debugger; //temp
   let currentIndex = getCurrentIndex();
 
-  nextButton.removeAttribute('disabled');
   currentIndex--;
   setCurrentIndex(currentIndex);
-  console.log(`Current index value: ${getCurrentIndex()}`);
+  toggleDisableAttrib(currentIndex);
+
+  countryEl.innerHTML = '';
+  const temp = nodeHistroyArr.at(currentIndex);
+  countryEl.append(temp);
+
+  console.log(`Current index value: ${currentIndex}`);
 }
