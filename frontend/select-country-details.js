@@ -7,9 +7,7 @@ const setCurrentIndex = (value) => (arrPointer = value);
 const countryEl = document.getElementById('country');
 
 export function runOnce() {
-  const toolbarEl = document.getElementById('toolbar');
-
-  toolbarEl.appendChild(navButtons());
+  navButtons();
   revealButtons();
 }
 
@@ -85,7 +83,8 @@ function getDetailsFragment(lastSelected) {
 }
 
 function navButtons() {
-  const fragment = document.createDocumentFragment();
+  const toolbarEl = document.querySelector('#toolbar');
+
   const prev = createNode('button', {
     innerText: 'Previous country',
     id: 'prev',
@@ -99,8 +98,7 @@ function navButtons() {
   next.addEventListener('click', handleNextClick);
   prev.addEventListener('click', handlePrevClick);
 
-  fragment.append(prev, next);
-  return fragment;
+  toolbarEl.append(prev, next);
 }
 
 function revealButtons() {
