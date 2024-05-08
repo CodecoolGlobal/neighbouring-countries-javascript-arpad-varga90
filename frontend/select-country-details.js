@@ -12,14 +12,18 @@ export default function handleSelect(event) {
   console.log(selectedCountry);
 
   // Empty #country before append new elements
+  countryEl.innerHTML = '';
+
+  /* Alternative solution is:
   while (countryEl.firstChild) {
     countryEl.removeChild(countryEl.firstChild);
-  }
-  /* Alternative solution is:
-  countryEl.innerHTML = '';
   */
+  const divCountryArea = createNode('div', { id: 'country_area' });
+  const divCountryPopulation = createNode('div', { id: 'country_population' });
 
   countryEl.appendChild(getDetails());
+  countryEl.append(divCountryArea, divCountryPopulation);
+  revealButtons();
 }
 
 function createNode(tagName, attributes = {}) {
@@ -34,7 +38,7 @@ function createNode(tagName, attributes = {}) {
 function getDetails() {
   const lastSelected = selectedCountry[selectedCountry.length - 1];
   const {
-    flag,
+    flags: { png },
     name: { common },
     region,
     subregion,
@@ -44,11 +48,21 @@ function getDetails() {
   const fragment = document.createDocumentFragment();
 
   //Flag (as <img> element), Common name (as <h1> element), Region (as <h2> element), Subregion (as <h3> element), Capital city (as <h4> element)
-  fragment.appendChild(createNode('img', { innerText: flag }));
+  fragment.appendChild(
+    createNode('img', { src: png, alt: `flag-of-${common.toLowerCase()}` })
+  );
   fragment.appendChild(createNode('h1', { innerText: common }));
   fragment.appendChild(createNode('h2', { innerText: region }));
   fragment.appendChild(createNode('h3', { innerText: subregion }));
   fragment.appendChild(createNode('h4', { innerText: capital }));
 
   return fragment;
+}
+
+function revealButtons() {
+  const populatonButton = document.querySelector('#population');
+  const areaButton = document.querySelector('#area');
+
+  populatonButton.removeAttribute('hidden');
+  areaButton.removeAttribute('hidden');
 }
