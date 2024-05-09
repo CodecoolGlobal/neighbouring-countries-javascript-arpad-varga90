@@ -4,13 +4,18 @@ import { handleSelect, runOnce } from './select-country-details.js';
 const all = document.querySelector('#all');
 const population = document.querySelector('#population');
 const area = document.querySelector('#area');
+const countryEl = document.querySelector('#country');
+const mapPointer = document.querySelector('#map_pointer');
 const selectedCountry = [];
 
 function main() {
   addOptions();
   all.addEventListener('change', runOnce, { once: true });
   all.addEventListener('change', handleSelect);
-  population.addEventListener('click', getNeighborWithLargestPopulation);
+  all.addEventListener('change', showOnMap);
+  population.addEventListener('click', (e) =>
+    getNeighborWithLargestPopulation()
+  );
   area.addEventListener('click', getNeighborWithLargestArea);
 }
 
@@ -108,6 +113,13 @@ function getNeighborWithLargestArea() {
   );
 }
 
+function showOnMap() {
+  const geoInfo = selectedCountry.at(-1).latlng;
+  const lat = (Math.abs(geoInfo[0] - 90) / 180) * 100;
+  const lng = ((geoInfo[1] + 180) / 360) * 100;
+  mapPointer.style = `visibility: visible; top: ${lat}%; left: ${lng}%`;
+  console.log(lat, lng);
+}
 main();
 console.log(countries);
 
