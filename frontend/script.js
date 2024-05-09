@@ -54,14 +54,29 @@ function getCountryByCca3(cca3) {
 }
 // get neighbor countries and find max value by population
 function getNeighborWithLargestPopulation() {
+  const populationDiv = document.querySelector('#country_population');
   const currentCountry = selectedCountry[selectedCountry.length - 1];
+  let neighbors;
+  let innerText = '';
   if (currentCountry.borders) {
+    neighbors = currentCountry.borders.map(getCountryByCca3);
+    let maxValue = neighbors.reduce((max, country) => {
+      return country.population > max.population ? country : max;
+    });
+    innerText = `The neighbor country of ${currentCountry.name.common} with highest population is ${maxValue.name.common}`;
+  } else {
+    innerText = `${currentCountry.name.common} does not have neighbors`;
   }
-  const neighbors = currentCountry.borders.map(getCountryByCca3);
-  const maxValue = neighbors.reduce((max, country) => {
-    return country.population > max.population ? country : max;
-  });
-  return maxValue;
+
+  populationDiv.innerHTML = '';
+  createNode(
+    'p',
+    {
+      className: 'population',
+      innerText: innerText,
+    },
+    populationDiv
+  );
 }
 // get neighbor countries and find max value by area
 function getNeighborWithLargestArea() {
