@@ -4,12 +4,16 @@ import { selectedCountry } from './script.js';
 let arrPointer;
 const getCurrentIndex = () => arrPointer;
 const setCurrentIndex = (value) => (arrPointer = value);
+
+let actualTranslation;
+const getActualTranslation = () => actualTranslation;
+const setActualTranslation = (value) => (actualTranslation = value);
+
 const countryEl = document.getElementById('country');
 
 export function runOnce() {
-  const toolbarEl = document.getElementById('toolbar');
-
-  toolbarEl.appendChild(navButtons());
+  navButtons();
+  addTranslations();
   revealButtons();
 }
 
@@ -38,7 +42,7 @@ export function handleSelect(event) {
 
   countryEl.append(
     getDetailsFragment(findCountry),
-    areaPopulationDivFragment()
+    areaPopulationDivFragment()              // Better to define in reka and csabi function
   );
   revealButtons();
 }
@@ -64,19 +68,29 @@ function areaPopulationDivFragment() {
 }
 
 function getDetailsFragment(lastSelected) {
+  const fragment = document.createDocumentFragment();
   const {
     flags: { png },
     name: { common },
     region,
     subregion,
     capital,
+    translations,
   } = lastSelected;
+  const lngShort = getActualTranslation();
+  let isTrAvlailable = false;
+  let trName = '';
 
-  const fragment = document.createDocumentFragment();
+  if (Object.keys(translations).includes(lngShort)) {
+    trName = translations[lngShort].common;
+    isTrAvlailable = true;
+  }
 
   //prettier-ignore
   fragment.appendChild(createNode('img', { src: png, alt: `flag-of-${common.toLowerCase()}`}));
-  fragment.appendChild(createNode('h1', { innerText: common }));
+  fragment.appendChild(
+    createNode('h1', { innerText: isTrAvlailable ? trName : common }) //User is not informed if tr is nat available
+  );
   fragment.appendChild(createNode('h2', { innerText: region }));
   fragment.appendChild(createNode('h3', { innerText: subregion }));
   fragment.appendChild(createNode('h4', { innerText: capital }));
@@ -85,7 +99,8 @@ function getDetailsFragment(lastSelected) {
 }
 
 function navButtons() {
-  const fragment = document.createDocumentFragment();
+  const toolbarEl = document.querySelector('#toolbar');
+
   const prev = createNode('button', {
     innerText: 'Previous country',
     id: 'prev',
@@ -99,8 +114,7 @@ function navButtons() {
   next.addEventListener('click', handleNextClick);
   prev.addEventListener('click', handlePrevClick);
 
-  fragment.append(prev, next);
-  return fragment;
+  toolbarEl.append(prev, next);
 }
 
 function revealButtons() {
@@ -148,4 +162,56 @@ function handlePrevClick() {
 
   countryEl.innerHTML = '';
   countryEl.appendChild(getDetailsFragment(selectedCountry[currentIndex]));
+}
+
+function addTranslations() {
+  const select = document.querySelector('#all');
+  const trList = Object.keys(countries[0].translations);
+  const languages = {
+    ara: 'Arabic',
+    ces: 'Czech',
+    cym: 'Welsh',
+    deu: 'German',
+    est: 'Estonian',
+    fin: 'Finnish',
+    fra: 'French',
+    hrv: 'Croatian',
+    hun: 'Hungarian',
+    ita: 'Italian',
+    jpn: 'Japanese',
+    kor: 'Korean',
+    nld: 'Dutch',
+    per: 'Persian',
+    pol: 'Polish',
+    por: 'Portuguese',
+    rus: 'Russian',
+    slk: 'Slovak',
+    spa: 'Spanish',
+    swe: 'Swedish',
+    urd: 'Urdu',
+    zho: 'Chinese',
+  };
+
+  const newSelect = createNode('select', { id: 'translations' });
+  newSelect.appendChild(createNode('option', { selected: null }));
+  for (const translation of trList) {
+    newSelect.appendChild(
+      createNode('option', {
+        value: `${translation}`,
+        innerText: `${languages[translation]}`,
+      })
+    );
+  }
+
+  newSelect.addEventListener('change', handleTrChange);
+
+  select.after(newSelect);
+}
+
+function handleTrChange(event) {
+  const selectedTranslation = event.target.value;
+  setActualTranslation(selectedTranslation);
+
+  countryEl.innerHTML = '';
+  countryEl.appendChild(getDetailsFragment(selectedCountry.at(-1)));
 }
