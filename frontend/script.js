@@ -5,7 +5,7 @@ const all = document.querySelector('#all');
 const population = document.querySelector('#population');
 const area = document.querySelector('#area');
 const countryEl = document.querySelector('#country');
-const mapPointer = document.querySelector('#map_pointer');
+export const mapPointer = document.querySelector('#map_pointer');
 const selectedCountry = [];
 
 function main() {
@@ -118,9 +118,7 @@ function showOnMap() {
   const lat = (Math.abs(geoInfo[0] - 90) / 180) * 100;
   const lng = ((geoInfo[1] + 180) / 360) * 100;
   mapPointer.style = `visibility: visible; top: ${lat}%; left: ${lng}%`;
-  console.log(lat, lng);
 }
 main();
-console.log(countries);
 
 export { selectedCountry };

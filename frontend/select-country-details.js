@@ -1,5 +1,5 @@
 import countries from './data.js';
-import { selectedCountry } from './script.js';
+import { selectedCountry, mapPointer } from './script.js';
 
 let arrPointer;
 const getCurrentIndex = () => arrPointer;
@@ -154,6 +154,7 @@ function handleNextClick() {
     getDetailsFragment(selectedCountry[currentIndex]),
     areaPopulationDivFragment()
   );
+  showOnMap(selectedCountry[currentIndex]);
 }
 
 function handlePrevClick() {
@@ -168,6 +169,7 @@ function handlePrevClick() {
     getDetailsFragment(selectedCountry[currentIndex]),
     areaPopulationDivFragment()
   );
+  showOnMap(selectedCountry[currentIndex]);
 }
 
 function addTranslations() {
@@ -223,4 +225,11 @@ function handleTrChange(event) {
     getDetailsFragment(selectedCountry.at(-1)),
     areaPopulationDivFragment()
   );
+}
+
+function showOnMap(lastSelected) {
+  const geoInfo = lastSelected.latlng;
+  const lat = (Math.abs(geoInfo[0] - 90) / 180) * 100;
+  const lng = ((geoInfo[1] + 180) / 360) * 100;
+  mapPointer.style = `visibility: visible; top: ${lat}%; left: ${lng}%`;
 }
