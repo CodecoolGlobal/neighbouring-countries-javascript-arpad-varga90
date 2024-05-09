@@ -219,10 +219,11 @@ function addTranslations() {
 function handleTrChange(event) {
   const selectedTranslation = event.target.value;
   setActualTranslation(selectedTranslation);
+  const currentIndex = getCurrentIndex();
 
   countryEl.innerHTML = '';
   countryEl.append(
-    getDetailsFragment(selectedCountry.at(-1)),
+    getDetailsFragment(selectedCountry.at(currentIndex)),
     areaPopulationDivFragment()
   );
 }
