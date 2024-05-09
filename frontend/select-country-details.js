@@ -42,7 +42,7 @@ export function handleSelect(event) {
 
   countryEl.append(
     getDetailsFragment(findCountry),
-    areaPopulationDivFragment()              // Better to define in reka and csabi function
+    areaPopulationDivFragment() // Better to define in reka and csabi function
   );
   revealButtons();
 }
@@ -213,5 +213,8 @@ function handleTrChange(event) {
   setActualTranslation(selectedTranslation);
 
   countryEl.innerHTML = '';
-  countryEl.appendChild(getDetailsFragment(selectedCountry.at(-1)));
+  countryEl.append(
+    getDetailsFragment(selectedCountry.at(-1)),
+    areaPopulationDivFragment()
+  );
 }
