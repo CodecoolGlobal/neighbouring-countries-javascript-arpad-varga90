@@ -1,6 +1,11 @@
 import countries from './data.js';
 import { selectedCountry } from './script.js';
 
+const populatonButton = document.querySelector('#population');
+const areaButton = document.querySelector('#area');
+const next = document.querySelector('#next');
+const prev = document.querySelector('#prev');
+
 let arrPointer;
 const getCurrentIndex = () => arrPointer;
 const setCurrentIndex = (value) => (arrPointer = value);
@@ -99,46 +104,32 @@ function getDetailsFragment(lastSelected) {
 }
 
 function navButtons() {
-  const toolbarEl = document.querySelector('#toolbar');
 
-  const prev = createNode('button', {
-    innerText: 'Previous country',
-    id: 'prev',
-    disabled: true,
-  });
-  const next = createNode('button', {
-    innerText: 'Next country',
-    id: 'next',
-    disabled: true,
-  });
   next.addEventListener('click', handleNextClick);
   prev.addEventListener('click', handlePrevClick);
 
-  toolbarEl.append(prev, next);
 }
 
 function revealButtons() {
-  const populatonButton = document.querySelector('#population');
-  const areaButton = document.querySelector('#area');
 
   populatonButton.removeAttribute('hidden');
   areaButton.removeAttribute('hidden');
+  prev.removeAttribute('hidden');
+  next.removeAttribute('hidden');
 }
 
 function toggleDisableAttrib(index) {
-  const nextButton = document.querySelector('#next');
-  const previousButton = document.querySelector('#prev');
   const selectedCountrySize = selectedCountry.length;
 
   if (index === selectedCountrySize - 1) {
-    nextButton.setAttribute('disabled', '');
+    next.setAttribute('disabled', '');
   } else if (index < selectedCountrySize) {
-    nextButton.removeAttribute('disabled');
+    next.removeAttribute('disabled');
   }
   if (index === 0) {
-    previousButton.setAttribute('disabled', '');
+    prev.setAttribute('disabled', '');
   } else if (index > 0) {
-    previousButton.removeAttribute('disabled');
+    prev.removeAttribute('disabled');
   }
 }
 
@@ -148,6 +139,7 @@ function handleNextClick() {
   currentIndex++;
   setCurrentIndex(currentIndex);
   toggleDisableAttrib(currentIndex);
+  currentIndextoExport = currentIndex;
 
   countryEl.innerHTML = '';
   countryEl.appendChild(getDetailsFragment(selectedCountry[currentIndex]));
@@ -159,6 +151,7 @@ function handlePrevClick() {
   currentIndex--;
   setCurrentIndex(currentIndex);
   toggleDisableAttrib(currentIndex);
+  currentIndextoExport = currentIndex;
 
   countryEl.innerHTML = '';
   countryEl.appendChild(getDetailsFragment(selectedCountry[currentIndex]));
