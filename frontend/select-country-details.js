@@ -150,7 +150,10 @@ function handleNextClick() {
   toggleDisableAttrib(currentIndex);
 
   countryEl.innerHTML = '';
-  countryEl.appendChild(getDetailsFragment(selectedCountry[currentIndex]));
+  countryEl.append(
+    getDetailsFragment(selectedCountry[currentIndex]),
+    areaPopulationDivFragment()
+  );
 }
 
 function handlePrevClick() {
@@ -161,7 +164,10 @@ function handlePrevClick() {
   toggleDisableAttrib(currentIndex);
 
   countryEl.innerHTML = '';
-  countryEl.appendChild(getDetailsFragment(selectedCountry[currentIndex]));
+  countryEl.append(
+    getDetailsFragment(selectedCountry[currentIndex]),
+    areaPopulationDivFragment()
+  );
 }
 
 function addTranslations() {
