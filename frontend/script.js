@@ -61,7 +61,7 @@ function getNeighborWithLargestPopulation() {
   let innerText = '';
   if (currentCountry.borders) {
     neighbors = currentCountry.borders.map(getCountryByCca3);
-    let maxValue = neighbors.reduce((max, country) => {
+    const maxValue = neighbors.reduce((max, country) => {
       return country.population > max.population ? country : max;
     });
     innerText = `The neighbor country of ${currentCountry.name.common} with highest population is ${maxValue.name.common}`;
