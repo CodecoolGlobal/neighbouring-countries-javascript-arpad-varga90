@@ -86,28 +86,39 @@ function getDetailsFragment(lastSelected) {
     isTrAvlailable = true;
   }
 
-  //prettier-ignore
-  fragment.appendChild(createNode('img', { src: png, alt: `flag-of-${common.toLowerCase()}`}));
+  const pEl = createNode('p', { id: 'paragraph' });
+  pEl.appendChild(
+    createNode('img', {
+      src: png,
+      id: 'flag',
+      alt: `flag-of-${common.toLowerCase()}`,
+    })
+  );
+  fragment.appendChild(pEl);
   fragment.appendChild(
     createNode('h1', { innerText: isTrAvlailable ? trName : common }) //User is not informed if tr is nat available
   );
-  fragment.appendChild(createNode('h2', { innerText: region }));
-  fragment.appendChild(createNode('h3', { innerText: subregion }));
-  fragment.appendChild(createNode('h4', { innerText: capital }));
+  fragment.appendChild(createNode('h2', { innerText: `Region: ${region}` }));
+  fragment.appendChild(
+    createNode('h3', { innerText: `Sub-region: ${subregion}` })
+  );
+  fragment.appendChild(createNode('h4', { innerText: `Capital: ${capital}` }));
 
   return fragment;
 }
 
 function navButtons() {
-  const toolbarEl = document.querySelector('#toolbar');
+  const toolbarEl = document.querySelector('.historyNav');
 
   const prev = createNode('button', {
     innerText: 'Previous country',
+    className: 'naviButton',
     id: 'prev',
     disabled: true,
   });
   const next = createNode('button', {
     innerText: 'Next country',
+    className: 'naviButton',
     id: 'next',
     disabled: true,
   });
