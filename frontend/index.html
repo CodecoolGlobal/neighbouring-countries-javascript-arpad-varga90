@@ -5,22 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Neighbouring Countries</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+      rel="stylesheet"
+    />
     <script src="/script.js" type="module" defer></script>
-	<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <nav id="toolbar">
-      <select id="all"></select>
-      <button hidden="hidden" id="population">
-        Neighbour with the largest population
-      </button>
-      <button hidden="hidden" id="area">Neighbour with the largest area</button>
+      <div class="selectors">
+        <select id="all"></select>
+      </div>
+      <div class="neighbourButtons">
+        <button class= "button" hidden="hidden" id="population">
+          Neighbour with the largest population
+        </button>
+        <button class= "button" hidden="hidden" id="area">
+          Neighbour with the largest area
+        </button>
+      </div>
+      <div class="historyNav"></div>
     </nav>
     <main id="country"></main>
     <div id="map_container">
-	  <div id="map_pointer"></div>
-      <img id="map" src="https://upload.wikimedia.org/wikipedia/commons/3/3b/World_map_nations.svg" alt="map">
-	  
+      <div id="map_pointer"></div>
+      <img
+        id="map"
+        src="https://upload.wikimedia.org/wikipedia/commons/3/3b/World_map_nations.svg"
+        alt="map"
+      />
     </div>
   </body>
 </html>

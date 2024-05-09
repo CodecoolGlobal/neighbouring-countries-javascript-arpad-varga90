@@ -4,30 +4,31 @@ import { handleSelect, runOnce } from './select-country-details.js';
 const all = document.querySelector('#all');
 const population = document.querySelector('#population');
 const area = document.querySelector('#area');
-const countryEl = document.querySelector('#country');
 export const mapPointer = document.querySelector('#map_pointer');
 const selectedCountry = [];
 
 function main() {
   addOptions();
+
   all.addEventListener('change', runOnce, { once: true });
   all.addEventListener('change', handleSelect);
   all.addEventListener('change', showOnMap);
-  population.addEventListener('click', (e) =>
-    getNeighborWithLargestPopulation()
-  );
+
+  population.addEventListener('click', getNeighborWithLargestPopulation);
   area.addEventListener('click', getNeighborWithLargestArea);
 }
 
 function addOptions() {
   countries.sort((a, b) => a.name.common.localeCompare(b.name.common));
-  const optionDefault = document.createElement('option');
-  optionDefault.innerText = 'Please choose a country';
-  all.append(optionDefault);
+
+  all.appendChild(
+    createNode('option', { innerText: 'Please choose a country' })
+  );
+
   for (const country of countries) {
-    const option = document.createElement('option');
-    option.innerText = country.name.common;
-    all.append(option);
+    all.appendChild(
+      createNode('option', { innerText: `${country.name.common}` })
+    );
   }
 }
 
@@ -60,7 +61,7 @@ function getNeighborWithLargestPopulation() {
   let innerText = '';
   if (currentCountry.borders) {
     neighbors = currentCountry.borders.map(getCountryByCca3);
-    let maxValue = neighbors.reduce((max, country) => {
+    const maxValue = neighbors.reduce((max, country) => {
       return country.population > max.population ? country : max;
     });
     innerText = `The neighbor country of ${currentCountry.name.common} with highest population is ${maxValue.name.common}`;
