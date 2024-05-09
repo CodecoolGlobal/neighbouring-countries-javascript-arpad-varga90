@@ -173,7 +173,7 @@ function handlePrevClick() {
 }
 
 function addTranslations() {
-  const select = document.querySelector('#all');
+  const selectorsDiv = document.querySelector('.selectors');
   const trList = Object.keys(countries[0].translations);
   const languages = {
     ara: 'Arabic',
@@ -213,7 +213,7 @@ function addTranslations() {
 
   newSelect.addEventListener('change', handleTrChange);
 
-  select.after(newSelect);
+  selectorsDiv.appendChild(newSelect);
 }
 
 function handleTrChange(event) {
